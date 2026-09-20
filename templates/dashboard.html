@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard — SmartLearn AI{% endblock %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+    <div>
+        <span style="color: var(--primary); font-weight: 700; font-size: 0.9rem;">{{ user.class_level }} Student Portal</span>
+        <h1 style="font-family: var(--font-heading); font-weight: 800; font-size: 2.2rem;">
+            Welcome Back, {{ user.name }} 👋
+        </h1>
+        <p style="color: var(--text-secondary);">Ready to continue your AI-powered personalized learning cycle today?</p>
+    </div>
+
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="{{ url_for('setup') }}" class="btn btn-primary btn-lg">
+            🚀 Start New Quiz
+        </a>
+        <a href="{{ url_for('personalized_practice') }}" class="btn btn-accent btn-lg">
+            🎯 Personalized Practice
+        </a>
+    </div>
+</div>
+
+<!-- Stats Grid -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon-wrapper" style="background: #e0e7ff; color: #4f46e5;">📝</div>
+        <div>
+            <div class="stat-val">{{ stats.quizzes_completed }}</div>
+            <div class="stat-label">Quizzes Completed</div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon-wrapper" style="background: #d1fae5; color: #059669;">🎯</div>
+        <div>
+            <div class="stat-val">{{ stats.avg_score }}%</div>
+            <div class="stat-label">Average Score</div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon-wrapper" style="background: #fef3c7; color: #d97706;">🏆</div>
+        <div>
+            <div class="stat-val">{{ stats.highest_score }}%</div>
+            <div class="stat-label">Highest Score</div>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon-wrapper" style="background: #fce7f3; color: #db2777;">🌟</div>
+        <div>
+            <div class="stat-val" style="font-size: 1.3rem;">{{ level_title }}</div>
+            <div class="stat-label">Current Level (Lvl {{ level_num }})</div>
+        </div>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-bottom: 2.5rem;">
+    <!-- Main Left Column: Progress Chart & Weak Areas -->
+    <div>
+        <!-- Score History Chart -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 style="font-family: var(--font-heading); font-weight: 800; font-size: 1.3rem;">
+                    📈 Performance Progress Trend
+                </h3>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Recent Quiz Scores</span>
+            </div>
+
+            {% if stats.recent_attempts and stats.recent_attempts|length > 0 %}
+                <div style="overflow-x: auto;">
+                    <svg id="score-chart-svg" width="100%" height="220" viewBox="0 0 600 220" style="background: #fafafa; border-radius: 12px;"></svg>
+                </div>
+            {% else %}
+                <div style="text-align: center; padding: 2.5rem 1rem; background: var(--bg-main); border-radius: var(--radius-md);">
+                    <p style="color: var(--text-secondary); font-weight: 600;">No quiz scores recorded yet!</p>
+                    <a href="{{ url_for('setup') }}" class="btn btn-primary" style="margin-top: 1rem;">Take Your First AI Quiz</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Current Weak Concepts Card -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3 style="font-family: var(--font-heading); font-weight: 800; font-size: 1.3rem; color: #991b1b;">
+                    ⚠ Focus Areas (Weak Concepts Identified)
+                </h3>
+                <a href="{{ url_for('personalized_practice') }}" style="font-size: 0.9rem; font-weight: 700;">Practice All Weak Areas ➔</a>
+            </div>
+
+            {% if stats.weak_concepts and stats.weak_concepts|length > 0 %}
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem;">
+                    {% for concept in stats.weak_concepts %}
+                        <div style="background: var(--danger-light); border: 1px solid #fecaca; color: #991b1b; padding: 0.6rem 1rem; border-radius: var(--radius-md); font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>⚠️ {{ concept }}</span>
+                            <a href="{{ url_for('personalized_practice') }}" style="color: #7f1d1d; background: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">Practice</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div style="background: var(--success-light); color: #065f46; padding: 1.25rem; border-radius: var(--radius-md); font-weight: 700;">
+                    🎉 Great job! No critical weak concepts identified yet. Keep taking quizzes to maintain your edge!
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Right Sidebar Column: Quick Actions & Gamification Badges -->
+    <div>
+        <!-- Quick Action Cards -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <h3 style="font-family: var(--font-heading); font-weight: 800; font-size: 1.2rem; margin-bottom: 1.25rem;">
+                ⚡ Quick Actions
+            </h3>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <a href="{{ url_for('setup') }}" class="btn btn-secondary" style="justify-content: flex-start;">
+                    📝 Start New AI Quiz
+                </a>
+                <a href="{{ url_for('personalized_practice') }}" class="btn btn-secondary" style="justify-content: flex-start; color: var(--primary); border-color: var(--primary-light);">
+                    🎯 Practice Weak Areas
+                </a>
+                <a href="{{ url_for('study_plan') }}" class="btn btn-secondary" style="justify-content: flex-start;">
+                    📚 My AI Study Plan
+                </a>
+                <a href="{{ url_for('chatbot') }}" class="btn btn-secondary" style="justify-content: flex-start;">
+                    🤖 Ask SmartLearn AI Tutor
+                </a>
+            </div>
+        </div>
+
+        <!-- Badges & Achievements -->
+        <div class="card">
+            <h3 style="font-family: var(--font-heading); font-weight: 800; font-size: 1.2rem; margin-bottom: 1rem;">
+                🏆 Badges & Achievements
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                {% for b in achievements %}
+                    <div style="background: {% if b.is_unlocked %}#f0fdf4{% else %}#f1f5f9{% endif %}; border: 1px solid {% if b.is_unlocked %}#bbf7d0{% else %}#e2e8f0{% endif %}; padding: 0.75rem 0.5rem; border-radius: var(--radius-md); text-align: center; opacity: {% if b.is_unlocked %}1{% else %}0.4{% endif %};" title="{{ b.description }}">
+                        <div style="font-size: 1.8rem; margin-bottom: 0.2rem;">{{ b.icon }}</div>
+                        <div style="font-size: 0.75rem; font-weight: 700; line-height: 1.2;">{{ b.name }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Quiz Attempts Table -->
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3 style="font-family: var(--font-heading); font-weight: 800; font-size: 1.3rem;">
+            📋 Recent Learning History
+        </h3>
+        <a href="{{ url_for('history') }}" style="font-weight: 700; font-size: 0.9rem;">View All History ➔</a>
+    </div>
+
+    {% if stats.recent_attempts and stats.recent_attempts|length > 0 %}
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--border-color); color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase;">
+                        <th style="padding: 0.75rem;">Subject & Topic</th>
+                        <th style="padding: 0.75rem;">Score</th>
+                        <th style="padding: 0.75rem;">Difficulty</th>
+                        <th style="padding: 0.75rem;">Date</th>
+                        <th style="padding: 0.75rem; text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in stats.recent_attempts %}
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 1rem 0.75rem;">
+                                <strong>{{ a.subject }}</strong>
+                                <div style="font-size: 0.85rem; color: var(--text-secondary);">{{ a.topic }}</div>
+                            </td>
+                            <td style="padding: 1rem 0.75rem;">
+                                <span style="font-weight: 800; font-size: 1.1rem; color: {% if a.score >= 80 %}#059669{% elif a.score >= 50 %}#d97706{% else %}#dc2626{% endif %};">
+                                    {{ a.score }}%
+                                </span>
+                            </td>
+                            <td style="padding: 1rem 0.75rem;">
+                                <span style="background: var(--bg-main); padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.85rem; font-weight: 700;">
+                                    {{ a.difficulty }}
+                                </span>
+                            </td>
+                            <td style="padding: 1rem 0.75rem; font-size: 0.85rem; color: var(--text-muted);">
+                                {{ a.created_at[:10] }}
+                            </td>
+                            <td style="padding: 1rem 0.75rem; text-align: right;">
+                                <a href="{{ url_for('quiz_results', attempt_id=a.id) }}" class="btn btn-secondary" style="padding: 0.3rem 0.7rem; font-size: 0.8rem;">
+                                    View Results ➔
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p style="color: var(--text-secondary); text-align: center; padding: 2rem 0;">No quiz attempts logged yet!</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    {% if stats.recent_attempts and stats.recent_attempts|length > 0 %}
+        const scores = [{% for a in stats.recent_attempts[::-1] %}{{ a.score }},{% endfor %}];
+        const dates = [{% for a in stats.recent_attempts[::-1] %}"{{ a.topic[:10] }}",{% endfor %}];
+        renderScoreChart(scores, dates);
+    {% endif %}
+});
+</script>
+{% endblock %}

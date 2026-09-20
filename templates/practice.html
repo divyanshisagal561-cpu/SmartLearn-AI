@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Personalized Practice 🎯 — SmartLearn AI{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <!-- Practice Banner Header -->
+    <div style="background: linear-gradient(135deg, #059669, #10b981); color: white; border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2rem; text-align: center;">
+        <span style="background: rgba(255, 255, 255, 0.2); padding: 0.3rem 1rem; border-radius: 20px; font-weight: 700; font-size: 0.85rem;">
+            🎯 Tailored Learning Set
+        </span>
+        <h1 style="font-family: var(--font-heading); font-weight: 800; font-size: 2rem; margin-top: 0.5rem;">
+            Personalized Practice Session
+        </h1>
+        <p style="color: #ecfdf5; margin-top: 0.3rem;">
+            Subject: <strong>{{ practice_data.subject }}</strong> • Topic: <strong>{{ practice_data.topic }}</strong>
+        </p>
+
+        {% if practice_data.weak_concepts and practice_data.weak_concepts|length > 0 %}
+            <div style="margin-top: 1rem; background: rgba(0, 0, 0, 0.15); padding: 0.75rem 1rem; border-radius: var(--radius-md); display: inline-block;">
+                <span style="font-size: 0.85rem; font-weight: 700; color: #a7f3d0;">Focusing Specifically On Weak Areas:</span>
+                <div style="font-weight: 800; color: white; margin-top: 0.2rem;">
+                    ⚠️ {{ practice_data.weak_concepts|join(', ') }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Quiz Header Bar -->
+    <div class="quiz-header">
+        <div>
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">{{ user.class_level }} Practice</span>
+            <h3 style="font-family: var(--font-heading); font-weight: 800; font-size: 1.3rem;">
+                Target Difficulty: {{ practice_data.difficulty }}
+            </h3>
+        </div>
+
+        <div style="text-align: right;">
+            <div style="font-weight: 700; font-size: 0.9rem;">
+                Question <span id="current-q-num">1</span> of <span id="total-q-num">{{ practice_data.questions|length }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar-container">
+        <div id="quiz-progress-bar" class="progress-bar-fill" style="background: linear-gradient(90deg, #10b981, #059669);"></div>
+    </div>
+
+    <!-- Interactive Question Card -->
+    <div class="question-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <span id="question-concept-badge" style="background: #d1fae5; color: #047857; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700;">
+                Target Concept
+            </span>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Personalized Practice Set</span>
+        </div>
+
+        <h3 id="question-text" class="question-title">
+            Loading practice question...
+        </h3>
+
+        <!-- Options Container -->
+        <div id="options-container" class="options-grid">
+            <!-- Dynamic JavaScript Options -->
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="quiz-nav-btns">
+        <button id="btn-prev" class="btn btn-secondary" onclick="prevQuestion()" style="display: none;">
+            ← Previous Question
+        </button>
+        <div></div>
+        <div>
+            <button id="btn-next" class="btn btn-primary" onclick="nextQuestion()">
+                Next Question →
+            </button>
+            <button id="btn-submit" class="btn btn-accent btn-lg" onclick="submitQuiz()" style="display: none;">
+                ✓ Complete Practice Set (+75 XP)
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const questionsData = {{ practice_data.questions|tojson }};
+    initQuiz(questionsData);
+});
+</script>
+{% endblock %}

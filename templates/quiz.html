@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}{{ quiz_meta.subject }} • {{ quiz_meta.topic }} — Quiz{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <!-- Quiz Header Bar -->
+    <div class="quiz-header">
+        <div>
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">{{ user.class_level }} • {{ quiz_meta.subject }}</span>
+            <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; margin-top: 0.2rem;">
+                {{ quiz_meta.topic }}
+            </h2>
+        </div>
+
+        <div style="text-align: right;">
+            <span style="background: var(--primary-light); color: var(--primary); padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: 700; font-size: 0.85rem;">
+                {{ quiz_meta.difficulty }}
+            </span>
+            <div style="font-weight: 700; margin-top: 0.3rem; font-size: 0.9rem;">
+                Question <span id="current-q-num">1</span> of <span id="total-q-num">{{ questions|length }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar-container">
+        <div id="quiz-progress-bar" class="progress-bar-fill"></div>
+    </div>
+
+    <!-- Interactive Question Card -->
+    <div class="question-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <span id="question-concept-badge" style="background: #f1f5f9; color: var(--text-secondary); padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700;">
+                Concept
+            </span>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Select your answer</span>
+        </div>
+
+        <h3 id="question-text" class="question-title">
+            Question text loading...
+        </h3>
+
+        <!-- 4 Options Grid -->
+        <div id="options-container" class="options-grid">
+            <!-- Dynamic JavaScript Options -->
+        </div>
+    </div>
+
+    <!-- Quiz Navigation Buttons -->
+    <div class="quiz-nav-btns">
+        <button id="btn-prev" class="btn btn-secondary" onclick="prevQuestion()" style="display: none;">
+            ← Previous Question
+        </button>
+        <div></div>
+        <div>
+            <button id="btn-next" class="btn btn-primary" onclick="nextQuestion()">
+                Next Question →
+            </button>
+            <button id="btn-submit" class="btn btn-accent btn-lg" onclick="submitQuiz()" style="display: none;">
+                ✓ Submit Quiz & Analyze
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const questionsData = {{ questions|tojson }};
+    initQuiz(questionsData);
+});
+</script>
+{% endblock %}

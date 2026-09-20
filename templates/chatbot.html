@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Ask SmartLearn AI Tutor 🤖 — SmartLearn AI{% endblock %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 0 auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <div>
+            <span style="color: var(--primary); font-weight: 700; font-size: 0.9rem;">24/7 AI School Assistant</span>
+            <h1 style="font-family: var(--font-heading); font-weight: 800; font-size: 2rem;">
+                Ask SmartLearn AI 🤖
+            </h1>
+            <p style="color: var(--text-secondary);">Ask any homework, conceptual, or textbook question tailored for <strong>{{ user.class_level }}</strong>!</p>
+        </div>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container">
+        <!-- Messages View -->
+        <div id="chat-messages" class="chat-messages">
+            <!-- Initial AI Greeting Message -->
+            <div class="chat-bubble ai">
+                👋 Hello <strong>{{ user.name }}</strong>! I am your <strong>SmartLearn AI Tutor</strong> for {{ user.class_level }}.
+                <br><br>
+                You can ask me questions like:
+                <ul style="padding-left: 1.25rem; margin-top: 0.5rem; color: var(--text-secondary);">
+                    <li>"Why does the quadratic formula work?"</li>
+                    <li>"Explain Newton's second law of motion with an example."</li>
+                    <li>"How does photosynthesis convert sunlight into glucose?"</li>
+                </ul>
+                <br>
+                What concept would you like to explore today?
+            </div>
+        </div>
+
+        <!-- Chat Input Bar -->
+        <div class="chat-input-bar">
+            <input type="text" id="chat-input" class="form-control" placeholder="Ask any question about your school subjects..." onkeypress="if(event.key === 'Enter') sendChatMessage()">
+            <button class="btn btn-primary" onclick="sendChatMessage()" style="padding: 0 1.5rem;">
+                Send ➔
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}SmartLearn AI — Personal AI Learning Companion for School Students{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div>
+        <span style="background: var(--primary-light); color: var(--primary); padding: 0.4rem 1rem; border-radius: var(--radius-full); font-weight: 700; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem;">
+            ✨ School Student AI Learning Platform (Classes 6–12)
+        </span>
+        <h1 class="hero-title">
+            Learn Smarter.<br>
+            Practice Better.<br>
+            <span class="gradient-text">Improve Faster.</span>
+        </h1>
+        <p class="hero-subtitle">
+            SmartLearn AI isn't just a quiz app. It understands your actual quiz performance, pinpoints your weak concepts, explains mistakes step-by-step, and continuously personalizes what you should practice next.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">
+                🚀 Start Learning Free
+            </a>
+            <a href="{{ url_for('demo_mode') }}" class="btn btn-secondary btn-lg">
+                ⚡ Try Interactive Demo
+            </a>
+        </div>
+    </div>
+
+    <!-- Live Preview Mockup Card -->
+    <div class="hero-card-preview">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+            <div>
+                <span style="font-size: 0.8rem; font-weight: 700; color: var(--primary);">Class 10 • Mathematics</span>
+                <h3 style="font-family: var(--font-heading); font-weight: 800; font-size: 1.2rem;">Topic: Quadratic Equations</h3>
+            </div>
+            <span style="background: var(--success-light); color: #065f46; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: 700; font-size: 0.8rem;">
+                Adaptive Engine Active
+            </span>
+        </div>
+
+        <div style="background: var(--bg-main); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1rem;">
+            <p style="font-weight: 700; font-size: 0.95rem;">🎯 Performance Analysis Result:</p>
+            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                <span style="background: var(--success-light); color: #047857; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem;">
+                    ✓ Strong: Standard form
+                </span>
+                <span style="background: var(--danger-light); color: #b91c1c; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem;">
+                    ⚠ Weak: Discriminant
+                </span>
+                <span style="background: var(--danger-light); color: #b91c1c; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; font-size: 0.8rem;">
+                    ⚠ Weak: Quadratic Formula
+                </span>
+            </div>
+        </div>
+
+        <div style="background: #fdf4ff; border-left: 4px solid var(--accent-pink); padding: 1rem; border-radius: var(--radius-sm);">
+            <p style="font-size: 0.85rem; color: #701a75; font-weight: 700;">🤖 AI Recommendation:</p>
+            <p style="font-size: 0.85rem; color: #4a044e;">"Your next personalized practice set will focus 80% on Discriminant & Quadratic Formula to solidify your foundation."</p>
+        </div>
+    </div>
+</section>
+
+<!-- Visual Learning Cycle Diagram -->
+<section class="learning-cycle-box">
+    <span style="background: rgba(255, 255, 255, 0.15); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700;">
+        🔄 The Complete SmartLearn AI Cycle
+    </span>
+    <h2 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 800; margin-top: 0.5rem;">
+        How Adaptive Learning Works
+    </h2>
+    <p style="color: #c7d2fe; max-width: 650px; margin: 0.5rem auto 0;">
+        Our platform doesn't just score your quiz—it understands where you got stuck and creates a custom path to mastery.
+    </p>
+
+    <div class="cycle-steps-grid">
+        <div class="cycle-step-item">
+            <span class="icon">🎯</span>
+            Enter Topic
+        </div>
+        <div class="cycle-step-item">
+            <span class="icon">🤖</span>
+            AI Quiz
+        </div>
+        <div class="cycle-step-item">
+            <span class="icon">📊</span>
+            Analyze Performance
+        </div>
+        <div class="cycle-step-item">
+            <span class="icon">🔍</span>
+            Find Weak Areas
+        </div>
+        <div class="cycle-step-item">
+            <span class="icon">💡</span>
+            Explain Mistakes
+        </div>
+        <div class="cycle-step-item">
+            <span class="icon">🎯</span>
+            Personalized Practice
+        </div>
+        <div class="cycle-step-item">
+            <span class="icon">📈</span>
+            Adapt Difficulty
+        </div>
+        <div class="cycle-step-item">
+            <span class="icon">🏆</span>
+            Track Progress
+        </div>
+    </div>
+</section>
+
+<!-- Features Grid -->
+<section style="margin: 4rem 0;">
+    <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 800;">
+            10 Power-Packed Features Built for School Success
+        </h2>
+        <p style="color: var(--text-secondary);">Everything a school student needs to excel in tests and exams.</p>
+    </div>
+
+    <div class="grid-features">
+        <div class="feature-card card-hover">
+            <div class="feature-icon" style="background: #e0e7ff; color: #4f46e5;">📝</div>
+            <h3 style="font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.5rem;">AI Quiz Generation</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Type any subject and topic! Generates high-quality school-level questions instantly.</p>
+        </div>
+
+        <div class="feature-card card-hover">
+            <div class="feature-icon" style="background: #fee2e2; color: #dc2626;">🔍</div>
+            <h3 style="font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.5rem;">Weak Concept Detection</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Calculates concept-level accuracy from your actual answers, isolating exact weak areas.</p>
+        </div>
+
+        <div class="feature-card card-hover">
+            <div class="feature-icon" style="background: #fef3c7; color: #d97706;">💡</div>
+            <h3 style="font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.5rem;">Explain My Mistake</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Step-by-step breakdown of every incorrect answer with real-life analogies and micro-checks.</p>
+        </div>
+
+        <div class="feature-card card-hover">
+            <div class="feature-icon" style="background: #d1fae5; color: #059669;">🎯</div>
+            <h3 style="font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.5rem;">Personalized Practice</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Automatically builds targeted question sets prioritizing your identified weak concepts.</p>
+        </div>
+
+        <div class="feature-card card-hover">
+            <div class="feature-icon" style="background: #fce7f3; color: #db2777;">📈</div>
+            <h3 style="font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.5rem;">Adaptive Difficulty</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Dynamic difficulty adjustments (Beginner ➔ Basic ➔ Intermediate ➔ Advanced) based on performance.</p>
+        </div>
+
+        <div class="feature-card card-hover">
+            <div class="feature-icon" style="background: #e0f2fe; color: #0284c7;">📚</div>
+            <h3 style="font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.5rem;">AI Study Plan</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Generates custom 7, 14, or 30-day study schedules with actionable daily checklist items.</p>
+        </div>
+
+        <div class="feature-card card-hover">
+            <div class="feature-icon" style="background: #f3e8ff; color: #9333ea;">🧠</div>
+            <h3 style="font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.5rem;">AI Learning Insights</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Real-time performance summaries tracking mastery trends over time.</p>
+        </div>
+
+        <div class="feature-card card-hover">
+            <div class="feature-icon" style="background: #ccfbf1; color: #0d9488;">📊</div>
+            <h3 style="font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.5rem;">Progress Dashboard</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Visual score trend charts, total quizzes completed, level badges, and topic breakdowns.</p>
+        </div>
+
+        <div class="feature-card card-hover">
+            <div class="feature-icon" style="background: #ffedd5; color: #ea580c;">🤖</div>
+            <h3 style="font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.5rem;">Ask AI Tutor</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Interactive student chatbot to ask homework questions and get simple step-by-step explanations.</p>
+        </div>
+
+        <div class="feature-card card-hover">
+            <div class="feature-icon" style="background: #fef9c3; color: #ca8a04;">⚡</div>
+            <h3 style="font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.5rem;">Gamification & Streaks</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Earn XP, maintain daily study streaks, and unlock student achievements.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Quote Section -->
+<section style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 3rem; text-align: center; margin: 4rem 0;">
+    <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">💡</span>
+    <blockquote style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; color: var(--text-primary); max-width: 800px; margin: 0 auto 1rem;">
+        "SmartLearn AI uses your quiz performance to identify areas that need more practice and personalize your next learning activity."
+    </blockquote>
+    <p style="color: var(--text-secondary); font-size: 0.95rem;">Designed specifically for School Students (Classes 6–12)</p>
+
+    <div style="margin-top: 2rem;">
+        <a href="{{ url_for('demo_mode') }}" class="btn btn-accent btn-lg">
+            ⚡ Try 1-Click Interactive Demo Now
+        </a>
+    </div>
+</section>
+{% endblock %}

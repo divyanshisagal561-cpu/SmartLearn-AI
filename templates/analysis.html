@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}AI Learning Analysis — SmartLearn AI{% endblock %}
+
+{% block content %}
+<div style="max-width: 850px; margin: 0 auto;">
+    <div style="margin-bottom: 2rem;">
+        <span style="background: var(--primary-light); color: var(--primary); padding: 0.4rem 1rem; border-radius: 20px; font-weight: 700; font-size: 0.85rem;">
+            🧠 Deep Performance Diagnostics
+        </span>
+        <h1 style="font-family: var(--font-heading); font-weight: 800; font-size: 2.2rem; margin-top: 0.5rem;">
+            Your AI Learning Analysis
+        </h1>
+        <p style="color: var(--text-secondary);">Subject: <strong>{{ attempt.subject }}</strong> • Topic: <strong>{{ attempt.topic }}</strong></p>
+    </div>
+
+    <!-- Level & Adaptive Adjustment Banner -->
+    <div class="card" style="background: white; border-left: 6px solid var(--primary); margin-bottom: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">Current Performance Level</span>
+                <h2 style="font-family: var(--font-heading); font-weight: 800; color: var(--primary); font-size: 1.8rem;">
+                    {{ current_level }} Level (Score: {{ attempt.score }}%)
+                </h2>
+            </div>
+
+            <div style="background: var(--bg-main); padding: 1rem 1.5rem; border-radius: var(--radius-md); text-align: right;">
+                <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Next Recommended Difficulty</span>
+                <div style="font-family: var(--font-heading); font-weight: 800; font-size: 1.2rem; color: var(--accent-purple);">
+                    ⚡ {{ next_difficulty }}
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color);">
+            <p style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem;">🤖 Adaptive Engine Rationale:</p>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">"{{ next_reason }}"</p>
+        </div>
+    </div>
+
+    <!-- AI Personalized Feedback Recommendation Box -->
+    <div class="card" style="margin-bottom: 2rem;">
+        <h3 style="font-family: var(--font-heading); font-weight: 800; font-size: 1.3rem; margin-bottom: 1rem;">
+            🤖 Personalized AI Learning Guidance
+        </h3>
+
+        <div style="background: #fdf4ff; border: 1px solid #f5d0fe; padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+            <p style="font-weight: 700; color: #701a75; font-size: 1.05rem; margin-bottom: 0.5rem;">
+                Recommendation for {{ user.name }} ({{ user.class_level }}):
+            </p>
+            <p style="color: #4a044e; line-height: 1.7;">
+                {% if attempt.score >= 80 %}
+                    You have demonstrated high mastery of <strong>{{ attempt.topic }}</strong>! You are comfortable with foundational and standard equations. Your next practice set will focus on challenging application-based advanced questions.
+                {% elif attempt.score >= 60 %}
+                    You are showing good progress in <strong>{{ attempt.topic }}</strong>. You understand standard rules, but need targeted practice on specific weak concepts: <em>{{ attempt.weak_concepts|join(', ') if attempt.weak_concepts else 'intermediate problem solving' }}</em>.
+                {% else %}
+                    You are building your foundation in <strong>{{ attempt.topic }}</strong>. Don't worry! SmartLearn AI will guide you through step-by-step beginner exercises targeting <em>{{ attempt.weak_concepts|join(', ') if attempt.weak_concepts else 'core definitions' }}</em> to ensure complete clarity before advancing.
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Action CTAs -->
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="{{ url_for('personalized_practice') }}?attempt_id={{ attempt.id }}" class="btn btn-primary btn-lg">
+                🎯 Launch Personalized Practice Now
+            </a>
+            <a href="{{ url_for('study_plan') }}" class="btn btn-secondary btn-lg">
+                📚 Build AI Study Plan
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

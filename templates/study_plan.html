@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}My AI Study Plan 📚 — SmartLearn AI{% endblock %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 0 auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <span style="color: var(--primary); font-weight: 700; font-size: 0.9rem;">Personalized Curriculum Schedule</span>
+            <h1 style="font-family: var(--font-heading); font-weight: 800; font-size: 2.2rem;">
+                My AI Study Plan 📚
+            </h1>
+            <p style="color: var(--text-secondary);">SmartLearn AI crafts custom study schedules targeting your specific weak areas.</p>
+        </div>
+
+        <!-- Duration Selectors -->
+        <div style="display: flex; gap: 0.5rem; background: white; padding: 0.4rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <form action="{{ url_for('generate_new_study_plan') }}" method="POST" style="display: flex; gap: 0.5rem;">
+                <button type="submit" name="duration" value="7" class="btn {% if current_duration == 7 %}btn-primary{% else %}btn-secondary{% endif %}" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                    7 Days
+                </button>
+                <button type="submit" name="duration" value="14" class="btn {% if current_duration == 14 %}btn-primary{% else %}btn-secondary{% endif %}" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                    14 Days
+                </button>
+                <button type="submit" name="duration" value="30" class="btn {% if current_duration == 30 %}btn-primary{% else %}btn-secondary{% endif %}" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                    30 Days
+                </button>
+            </form>
+        </div>
+    </div>
+
+    {% if tasks and tasks|length > 0 %}
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            {% for t in tasks %}
+                <div id="task-card-{{ t.id }}" class="card {% if t.is_completed %}completed{% endif %}" style="transition: all 0.25s ease; border-left: 5px solid {% if t.is_completed %}var(--success){% else %}var(--primary){% endif %};">
+                    <div style="display: flex; align-items: flex-start; gap: 1.25rem;">
+                        <input type="checkbox" id="task-check-{{ t.id }}" {% if t.is_completed %}checked{% endif %} onchange="toggleTask('{{ t.id }}')" style="width: 24px; height: 24px; margin-top: 0.2rem; cursor: pointer; accent-color: var(--primary);">
+
+                        <div style="flex: 1;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+                                <span style="font-weight: 800; font-size: 0.85rem; color: var(--primary);">
+                                    Day {{ t.day_number }} • Focus: {{ t.concept or 'General' }}
+                                </span>
+                                <span style="font-size: 0.8rem; color: #15803d; font-weight: 700;">+20 XP on completion</span>
+                            </div>
+
+                            <h3 style="font-family: var(--font-heading); font-weight: 800; font-size: 1.15rem; margin-bottom: 0.3rem;">
+                                {{ t.title }}
+                            </h3>
+
+                            <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                                {{ t.description }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card" style="text-align: center; padding: 3rem 1rem;">
+            <p style="color: var(--text-secondary); font-size: 1.1rem; font-weight: 600;">No active study plan generated yet.</p>
+            <form action="{{ url_for('generate_new_study_plan') }}" method="POST" style="margin-top: 1rem;">
+                <input type="hidden" name="duration" value="7">
+                <button type="submit" class="btn btn-primary btn-lg">Generate 7-Day AI Study Plan Now 🚀</button>
+            </form>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/study_plan.js') }}"></script>
+{% endblock %}

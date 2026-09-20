@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Setup New Quiz — SmartLearn AI{% endblock %}
+
+{% block content %}
+<div style="max-width: 680px; margin: 2rem auto;">
+    <div class="card card-hover" style="padding: 2.5rem;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="width: 54px; height: 54px; background: var(--primary-light); color: var(--primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 1rem;">
+                ⚙️
+            </div>
+            <h2 style="font-family: var(--font-heading); font-weight: 800; font-size: 2rem;">Setup Your Learning Quiz</h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                Enter any school subject and topic! SmartLearn AI will generate a customized quiz for <strong>{{ user.class_level }}</strong>.
+            </p>
+        </div>
+
+        <form action="{{ url_for('generate_quiz_route') }}" method="POST" onsubmit="showLoading('🤖 SmartLearn AI is creating your personalized school quiz...')">
+            <!-- Subject Input -->
+            <div class="form-group">
+                <label class="form-label" for="subject">School Subject</label>
+                <input type="text" id="subject" name="subject" class="form-control" placeholder="e.g. Mathematics, Physics, Chemistry, Biology, English, History..." required list="subject-suggestions">
+                <datalist id="subject-suggestions">
+                    <option value="Mathematics">
+                    <option value="Science">
+                    <option value="Physics">
+                    <option value="Chemistry">
+                    <option value="Biology">
+                    <option value="English">
+                    <option value="History">
+                    <option value="Geography">
+                    <option value="Computer Science">
+                </datalist>
+                <small style="color: var(--text-muted); display: block; margin-top: 0.3rem;">Type any school subject!</small>
+            </div>
+
+            <!-- Topic Input -->
+            <div class="form-group">
+                <label class="form-label" for="topic">Topic Name</label>
+                <input type="text" id="topic" name="topic" class="form-control" placeholder="e.g. Quadratic Equations, Newton's Laws, Photosynthesis, Trigonometry..." required>
+                <small style="color: var(--text-muted); display: block; margin-top: 0.3rem;">Type any topic you want to test or practice.</small>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <!-- Number of Questions -->
+                <div class="form-group">
+                    <label class="form-label" for="num_questions">Number of Questions</label>
+                    <select id="num_questions" name="num_questions" class="form-control" required>
+                        <option value="5" selected>5 Questions (Quick)</option>
+                        <option value="10">10 Questions (Standard)</option>
+                        <option value="15">15 Questions (Deep Test)</option>
+                        <option value="20">20 Questions (Full Assessment)</option>
+                    </select>
+                </div>
+
+                <!-- Difficulty Level -->
+                <div class="form-group">
+                    <label class="form-label" for="difficulty">Target Difficulty</label>
+                    <select id="difficulty" name="difficulty" class="form-control" required>
+                        <option value="Adaptive" selected>✨ Adaptive (AI Auto-Chooses)</option>
+                        <option value="Beginner">Beginner (Fundamentals)</option>
+                        <option value="Basic">Basic (Standard)</option>
+                        <option value="Intermediate">Intermediate (Application)</option>
+                        <option value="Advanced">Advanced (Challenging)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 1.5rem;">
+                ✨ Generate AI Quiz Now
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
